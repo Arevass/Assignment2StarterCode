@@ -1,6 +1,5 @@
-class Player
+class Player extends Object
 {
-  PVector pos;
   char up;
   char down;
   char left;
@@ -9,7 +8,6 @@ class Player
   char button1;
   char button2;
   int index;
-  color colour;
     
   Player()
   {
