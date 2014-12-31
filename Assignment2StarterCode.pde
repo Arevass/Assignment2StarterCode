@@ -11,12 +11,16 @@ boolean[] keys = new boolean[526];
 
 void setup()
 {
-  size(500, 500);
+  size(1000, 500);
+  noStroke();
+  smooth();
   setUpPlayerControllers();
 }
 
 void draw()
 {
+  background(0);
+  
   for(Player player:players)
   {
     player.update();

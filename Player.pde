@@ -46,21 +46,21 @@ class Player
   
   void update()
   {
-    if (checkKey(up))
+    if (checkKey(up) && pos.y > 0)
     {
-      pos.y -= 1;
+      pos.y -= 3;
     }
-    if (checkKey(down))
+    if (checkKey(down) && pos.y < height)
     {
-      pos.y += 1;
+      pos.y += 3;
     }
-    if (checkKey(left))
+    if (checkKey(left) && pos.x > 0)
     {
-      pos.x -= 1;
+      pos.x -= 3;
     }    
-    if (checkKey(right))
+    if (checkKey(right) && pos.x < width)
     {
-      pos.x += 1;
+      pos.x += 3;
     }
     if (checkKey(start))
     {
@@ -80,6 +80,8 @@ class Player
   {    
     stroke(colour);
     fill(colour);    
-    rect(pos.x, pos.y, 20, 20);
+    ellipse(pos.x, pos.y, 20, 20);
+    fill(255);
+    ellipse(pos.x, pos.y, 10, 10);
   }  
 }
