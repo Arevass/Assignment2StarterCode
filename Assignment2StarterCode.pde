@@ -7,6 +7,7 @@
 */
 
 ArrayList<Player> players = new ArrayList<Player>();
+ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 boolean[] keys = new boolean[526];
 
 void setup()
@@ -25,6 +26,12 @@ void draw()
   {
     player.update();
     player.display();
+  }
+  
+  for(Bullet bullet:bullets)
+  {
+    bullet.update();
+    bullet.display();
   }
 }
 

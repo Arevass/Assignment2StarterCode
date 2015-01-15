@@ -8,10 +8,15 @@ class Player extends Object
   char button1;
   char button2;
   int index;
+  
+  //float pSpeed;
+  float cooldown = 200;
+  float currentTime = millis();
     
   Player()
   {
     pos = new PVector(width / 2, height / 2);
+    //pSpeed = 3;
   }
   
   Player(int index, color colour, char up, char down, char left, char right, char start, char button1, char button2)
@@ -43,22 +48,23 @@ class Player extends Object
   }
   
   void update()
-  {
+  {    
     if (checkKey(up) && pos.y > 0)
     {
-      pos.y -= 3;
+      pos.y -= speed.y;
     }
+    
     if (checkKey(down) && pos.y < height)
     {
-      pos.y += 3;
+      pos.y += speed.y;
     }
     if (checkKey(left) && pos.x > 0)
     {
-      pos.x -= 3;
+      pos.x -= speed.x;
     }    
     if (checkKey(right) && pos.x < width)
     {
-      pos.x += 3;
+      pos.x += speed.x;
     }
     if (checkKey(start))
     {
@@ -66,7 +72,17 @@ class Player extends Object
     }
     if (checkKey(button1))
     {
-      println("Player " + index + " button 1");
+      if(index == 0)
+      {
+        if(millis() - currentTime >= cooldown)
+        {
+          Bullet bullet = new Bullet();
+          bullet.pos = pos.get();
+          bullet.theta = theta;
+          bullets.add(bullet);
+          currentTime = millis();
+        }
+      }      
     }
     if (checkKey(button2))
     {
@@ -76,10 +92,21 @@ class Player extends Object
   
   void display()
   {    
-    stroke(colour);
-    fill(colour);    
-    ellipse(pos.x, pos.y, 20, 20);
-    fill(255);
-    ellipse(pos.x, pos.y, 10, 10);
-  }  
+    if(index == 0)
+    {
+      stroke(colour);
+      fill(colour);    
+      ellipse(pos.x, pos.y, 20, 20);
+      fill(255);
+      ellipse(pos.x, pos.y, 10, 10);
+    }
+    
+    if(index == 1)
+    {
+      stroke(colour);
+      fill(colour);
+      line(pos.x - 10, pos.y - 10, pos.x + 10, pos.y + 10);
+      line(pos.x - 10, pos.y + 10, pos.x + 10, pos.y - 10);
+    }
+  }
 }

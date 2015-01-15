@@ -23,7 +23,7 @@ class Bullet extends Object
     float speed = 10;
     
     PVector velocity = PVector.mult(forward, speed);
-    pos.add(forward);
+    pos.add(velocity);
   }
   
   void display()
