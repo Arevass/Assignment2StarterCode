@@ -27,11 +27,16 @@ void draw()
     player.update();
     player.display();
   }
-  
-  for(Bullet bullet:bullets)
+
+  for(int i = 0; i < bullets.size(); i++)
   {
-    bullet.update();
-    bullet.display();
+    bullets.get(i).update();
+    bullets.get(i).display();
+    
+    if(!bullets.get(i).alive)
+    {
+      bullets.remove(i);
+    }
   }
 }
 

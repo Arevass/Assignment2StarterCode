@@ -48,7 +48,10 @@ class Player extends Object
   }
   
   void update()
-  {    
+  {
+    
+    //PVector aim = new PVector(players.get(1).pos);
+    
     if (checkKey(up) && pos.y > 0)
     {
       pos.y -= speed.y;
@@ -76,6 +79,7 @@ class Player extends Object
       {
         if(millis() - currentTime >= cooldown)
         {
+          PVector aim = new PVector();
           Bullet bullet = new Bullet();
           bullet.pos = pos.get();
           bullet.theta = theta;

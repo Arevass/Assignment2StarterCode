@@ -1,8 +1,8 @@
 class Bullet extends Object
 {
-  float lifespan = 5;
+  float lifespan = 3;
   float timer = 0;
-  float tick = 1 / 60;
+  float tick = 0.05;
   
   Bullet()
   {
