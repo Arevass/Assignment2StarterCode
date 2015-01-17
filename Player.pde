@@ -50,7 +50,8 @@ class Player extends Object
   void update()
   {
     
-    //PVector aim = new PVector(players.get(1).pos);
+    PVector aim = new PVector();
+    aim = players.get(1).pos;
     
     if (checkKey(up) && pos.y > 0)
     {
@@ -79,10 +80,11 @@ class Player extends Object
       {
         if(millis() - currentTime >= cooldown)
         {
-          PVector aim = new PVector();
-          Bullet bullet = new Bullet();
+          PVector tar = PVector.sub(aim, pos);
+          tar.normalize();
+          Bullet bullet = new Bullet(tar);
           bullet.pos = pos.get();
-          bullet.theta = theta;
+          //bullet.theta = theta;
           bullets.add(bullet);
           currentTime = millis();
         }
@@ -109,8 +111,8 @@ class Player extends Object
     {
       stroke(colour);
       fill(colour);
-      line(pos.x - 10, pos.y - 10, pos.x + 10, pos.y + 10);
-      line(pos.x - 10, pos.y + 10, pos.x + 10, pos.y - 10);
+      line(pos.x - 5, pos.y - 5, pos.x + 5, pos.y + 5);
+      line(pos.x - 5, pos.y + 5, pos.x + 5, pos.y - 5);
     }
   }
 }

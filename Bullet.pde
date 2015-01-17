@@ -4,9 +4,9 @@ class Bullet extends Object
   float timer = 0;
   float tick = 0.05;
   
-  Bullet()
+  Bullet(PVector forward)
   {
-    
+    this.forward = forward;
   }
   
   void update()
@@ -18,9 +18,9 @@ class Bullet extends Object
       alive = false;
     }
     
-    forward.x = sin(theta);
-    forward.y = -cos(theta);
-    float speed = 10;
+    //forward.x = sin(theta);
+    //forward.y = -cos(theta);
+    float speed = 20;
     
     PVector velocity = PVector.mult(forward, speed);
     pos.add(velocity);
@@ -30,8 +30,8 @@ class Bullet extends Object
   {
     pushMatrix();
     translate(pos.x, pos.y);
-    rotate(theta);
-    line(0, -5, 0, 5);
+    //rotate(theta);
+    ellipse(0, 0, 5, 5);
     popMatrix();
   }
 }
