@@ -8,6 +8,7 @@
 
 ArrayList<Player> players = new ArrayList<Player>();
 ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 boolean[] keys = new boolean[526];
 
 void setup()
