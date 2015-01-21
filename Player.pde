@@ -110,9 +110,11 @@ class Player extends Object
     if(index == 1)
     {
       stroke(colour);
-      fill(colour);
-      line(pos.x - 5, pos.y - 5, pos.x + 5, pos.y + 5);
-      line(pos.x - 5, pos.y + 5, pos.x + 5, pos.y - 5);
+      noFill();
+      ellipse(pos.x, pos.y, 5, 5);
+      ellipse(pos.x, pos.y, 15, 15);
+      line(pos.x - 10, pos.y, pos.x + 10, pos.y);
+      line(pos.x, pos.y + 10, pos.x, pos.y - 10);
     }
   }
 }

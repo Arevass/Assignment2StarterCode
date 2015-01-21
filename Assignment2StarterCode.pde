@@ -17,6 +17,7 @@ void setup()
   noStroke();
   smooth();
   setUpPlayerControllers();
+  spawnEnemy();
 }
 
 void draw()
@@ -27,6 +28,12 @@ void draw()
   {
     player.update();
     player.display();
+  }
+  
+  for(Enemy enemy:enemies)
+  {
+    enemy.update();
+    enemy.display();
   }
 
   for(int i = 0; i < bullets.size(); i++)
@@ -96,5 +103,16 @@ void setUpPlayerControllers()
     p.pos.x = x;
     p.pos.y = 300;
    players.add(p);         
+  }
+}
+
+void spawnEnemy()
+{
+  for(int i = 0; i < 3; i++)
+  {
+    Enemy e = new Enemy((int) random(0,3));
+    e.pos.x = (int) random(0, width);
+    e.pos.y = (int) random(0, height);
+    enemies.add(e);
   }
 }
