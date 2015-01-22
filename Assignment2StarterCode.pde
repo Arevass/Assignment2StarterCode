@@ -46,6 +46,17 @@ void draw()
       bullets.remove(i);
     }
   }
+  
+  Player p = players.get(0);
+  
+  for(int i = 0; i < enemies.size(); i++)
+  {
+    Enemy e = enemies.get(i);
+    if(p.collisionCheck(e))
+    {
+      println("detect");
+    }
+  }
 }
 
 void keyPressed()
@@ -110,7 +121,8 @@ void spawnEnemy()
 {
   for(int i = 0; i < 3; i++)
   {
-    Enemy e = new Enemy((int) random(0,3));
+    //Enemy e = new Enemy((int) random(0,3));
+    Enemy e = new Enemy(0);
     e.pos.x = (int) random(0, width);
     e.pos.y = (int) random(0, height);
     enemies.add(e);

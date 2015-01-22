@@ -49,9 +49,10 @@ class Player extends Object
   
   void update()
   {
-    
     PVector aim = new PVector();
     aim = players.get(1).pos;
+    
+    theta = atan2(aim.y - pos.y, aim.x - pos.x);
     
     if (checkKey(up) && pos.y > 0)
     {
@@ -84,7 +85,7 @@ class Player extends Object
           tar.normalize();
           Bullet bullet = new Bullet(tar);
           bullet.pos = pos.get();
-          //bullet.theta = theta;
+          bullet.theta = theta;
           bullets.add(bullet);
           currentTime = millis();
         }
@@ -101,7 +102,7 @@ class Player extends Object
     if(index == 0)
     {
       stroke(colour);
-      fill(colour);    
+      fill(colour);
       ellipse(pos.x, pos.y, 20, 20);
       fill(255);
       ellipse(pos.x, pos.y, 10, 10);
@@ -116,5 +117,29 @@ class Player extends Object
       line(pos.x - 10, pos.y, pos.x + 10, pos.y);
       line(pos.x, pos.y + 10, pos.x, pos.y - 10);
     }
+  }
+  
+  boolean collisionCheck(Enemy e)
+  {
+    if(e.pos.x + e.w < pos.x)
+    {
+      return false;
+    }
+    
+    if (e.pos.x > pos.x + w)
+    {
+    return false;
+    }
+    
+    if (e.pos.y > pos.y + h)
+    {
+    return false;
+    }
+    
+    if (e.pos.y + e.h < pos.y)
+    {
+    return false;
+    } 
+    return true;
   }
 }

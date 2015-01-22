@@ -30,8 +30,9 @@ class Bullet extends Object
   {
     pushMatrix();
     translate(pos.x, pos.y);
-    //rotate(theta);
-    ellipse(0, 0, 5, 5);
+    rotate(theta);
+    fill(colour);
+    line(5, 0, -5, 0);
     popMatrix();
   }
 }
