@@ -32,7 +32,32 @@ class Bullet extends Object
     translate(pos.x, pos.y);
     rotate(theta);
     fill(colour);
-    line(5, 0, -5, 0);
+    line(-5, 0, 5, 0);
     popMatrix();
+  }
+  
+  boolean collisionCheck(Enemy e)
+  {
+    if(e.pos.x + e.w < pos.x)
+    {
+      return false;
+    }
+    
+    if (e.pos.x > pos.x + 10)
+    {
+      return false;
+    }
+    
+    if (e.pos.y > pos.y + 10)
+    {
+      return false;
+    }
+    
+    if (e.pos.y + e.h < pos.y)
+    {
+      return false;
+    } 
+    
+    return true;
   }
 }

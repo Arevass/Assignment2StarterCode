@@ -10,6 +10,7 @@ ArrayList<Player> players = new ArrayList<Player>();
 ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 boolean[] keys = new boolean[526];
+int k = 0;
 
 void setup()
 {
@@ -17,12 +18,16 @@ void setup()
   noStroke();
   smooth();
   setUpPlayerControllers();
-  spawnEnemy();
 }
 
 void draw()
 {
   background(0);
+  
+  if(frameCount % 180 == 0)
+  {
+    spawnEnemy();
+  }
   
   for(Player player:players)
   {
@@ -30,10 +35,15 @@ void draw()
     player.display();
   }
   
-  for(Enemy enemy:enemies)
+  for(int i = 0; i < enemies.size(); i++)
   {
-    enemy.update();
-    enemy.display();
+    enemies.get(i).update();
+    enemies.get(i).display();
+    
+    if(!enemies.get(i).alive)
+    {
+      enemies.remove(i);
+    }
   }
 
   for(int i = 0; i < bullets.size(); i++)
@@ -54,7 +64,27 @@ void draw()
     Enemy e = enemies.get(i);
     if(p.collisionCheck(e))
     {
-      println("detect");
+      println(k);
+      k++;
+    }
+  }
+  
+  if(bullets.size() > 0)
+  {
+    
+    for(int j = 0; j < bullets.size(); j++)
+    {
+      
+      Bullet b = bullets.get(j);
+      
+      for(int i = 0; i < enemies.size(); i++)
+      {
+        Enemy e = enemies.get(i);
+        if(b.collisionCheck(e))
+        {
+          enemies.remove(i);
+        }
+      }
     }
   }
 }
@@ -119,12 +149,9 @@ void setUpPlayerControllers()
 
 void spawnEnemy()
 {
-  for(int i = 0; i < 3; i++)
-  {
-    //Enemy e = new Enemy((int) random(0,3));
-    Enemy e = new Enemy(0);
-    e.pos.x = (int) random(0, width);
-    e.pos.y = (int) random(0, height);
-    enemies.add(e);
-  }
+  //Enemy e = new Enemy((int) random(0,3));
+  Enemy e = new Enemy(0);
+  e.pos.x = (int) random(0, width);
+  e.pos.y = (int) random(0, height);
+  enemies.add(e);
 }

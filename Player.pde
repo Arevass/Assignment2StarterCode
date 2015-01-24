@@ -16,7 +16,7 @@ class Player extends Object
   Player()
   {
     pos = new PVector(width / 2, height / 2);
-    //pSpeed = 3;
+    
   }
   
   Player(int index, color colour, char up, char down, char left, char right, char start, char button1, char button2)
@@ -121,25 +121,26 @@ class Player extends Object
   
   boolean collisionCheck(Enemy e)
   {
-    if(e.pos.x + e.w < pos.x)
+    if(e.pos.x + 20 < pos.x)
     {
       return false;
     }
     
     if (e.pos.x > pos.x + w)
     {
-    return false;
+      return false;
     }
     
     if (e.pos.y > pos.y + h)
     {
-    return false;
+      return false;
     }
     
-    if (e.pos.y + e.h < pos.y)
+    if (e.pos.y + 20 < pos.y)
     {
-    return false;
+      return false;
     } 
+    
     return true;
   }
 }

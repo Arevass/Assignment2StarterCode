@@ -13,13 +13,13 @@ class Enemy extends Object
   
   void update()
   {
-    if(pos.x > width || pos.x < 0)
+    if(pos.x + w > width || pos.x < 0)
     {
       movement.x *= -1;
       //speedStage += 0.2;
     }
     
-    if(pos.y > height || pos.y < 0)
+    if(pos.y + h > height || pos.y < 0)
     {
       movement.y *= -1;
       //speedStage += 0.2;
@@ -32,6 +32,7 @@ class Enemy extends Object
   {
     if(type == 0)
     {
+      fill(255, 0, 0);
       rect(pos.x, pos.y, w, h);
     }
     
