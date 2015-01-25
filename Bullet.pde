@@ -4,9 +4,10 @@ class Bullet extends Object
   float timer = 0;
   float tick = 0.05;
   
-  Bullet(PVector forward)
+  Bullet(PVector forward, color colour)
   {
     this.forward = forward;
+    this.colour = colour;
   }
   
   void update()
@@ -31,33 +32,19 @@ class Bullet extends Object
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(theta);
-    fill(colour);
+    stroke(colour);
     line(-5, 0, 5, 0);
     popMatrix();
   }
   
   boolean collisionCheck(Enemy e)
   {
-    if(e.pos.x + e.w < pos.x)
+    if(pos.x < e.pos.x + e.w && pos.x > e.pos.x && pos.y < e.pos.y + e.h && pos.y > e.pos.y)
     {
-      return false;
+      return true;
     }
     
-    if (e.pos.x > pos.x + 10)
-    {
-      return false;
-    }
+    return false;
     
-    if (e.pos.y > pos.y + 10)
-    {
-      return false;
-    }
-    
-    if (e.pos.y + e.h < pos.y)
-    {
-      return false;
-    } 
-    
-    return true;
   }
 }

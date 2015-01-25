@@ -79,13 +79,18 @@ class Player extends Object
     {
       if(index == 0)
       {
+        
+        //PVector ship = new PVector();
+        //ship = players.get(0).pos;
+        
         if(millis() - currentTime >= cooldown)
         {
           PVector tar = PVector.sub(aim, pos);
           tar.normalize();
-          Bullet bullet = new Bullet(tar);
+          Bullet bullet = new Bullet(tar, colour);
           bullet.pos = pos.get();
           bullet.theta = theta;
+          bullet.colour = color(random(0,255), random(0,255), random(0,255));
           bullets.add(bullet);
           currentTime = millis();
         }
@@ -121,26 +126,12 @@ class Player extends Object
   
   boolean collisionCheck(Enemy e)
   {
-    if(e.pos.x + 20 < pos.x)
+    if(pos.x - 10 < e.pos.x + e.w && pos.x + 10 > e.pos.x && pos.y - 10 < e.pos.y + e.h && pos.y + 10 > e.pos.y)
     {
-      return false;
+      return true;
     }
     
-    if (e.pos.x > pos.x + w)
-    {
-      return false;
-    }
+    return false;
     
-    if (e.pos.y > pos.y + h)
-    {
-      return false;
-    }
-    
-    if (e.pos.y + 20 < pos.y)
-    {
-      return false;
-    } 
-    
-    return true;
   }
 }

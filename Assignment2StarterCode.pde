@@ -1,9 +1,8 @@
 /*
-    DIT OOP Assignment 2 Starter Code
+           DIT OOP Assignment 2
     =================================
     
-    Loads player properties from an xml file
-    See: https://github.com/skooter500/DT228-OOP 
+          Glenn Derwin; C13536273
 */
 
 ArrayList<Player> players = new ArrayList<Player>();
@@ -11,20 +10,24 @@ ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 boolean[] keys = new boolean[526];
 int k = 0;
+int spawnRate;
+PImage enemy1, enemy2, enemy3;
 
 void setup()
 {
   size(1000, 500);
   noStroke();
   smooth();
+  spawnRate = 60;
   setUpPlayerControllers();
+  enemy3 = loadImage("enemy3.png");
 }
 
 void draw()
 {
   background(0);
   
-  if(frameCount % 180 == 0)
+  if(frameCount % spawnRate == 0)
   {
     spawnEnemy();
   }
@@ -64,6 +67,7 @@ void draw()
     Enemy e = enemies.get(i);
     if(p.collisionCheck(e))
     {
+      enemies.remove(i);
       println(k);
       k++;
     }
@@ -138,7 +142,7 @@ void setUpPlayerControllers()
     XML playerXML = children[i];
     Player p = new Player(
             i
-            , color(random(0, 255), random(0, 255), random(0, 255))
+            , color(0, 0, 255)
             , playerXML);
     int x = (i + 1) * gap;
     p.pos.x = x;
@@ -149,9 +153,17 @@ void setUpPlayerControllers()
 
 void spawnEnemy()
 {
-  //Enemy e = new Enemy((int) random(0,3));
-  Enemy e = new Enemy(0);
-  e.pos.x = (int) random(0, width);
-  e.pos.y = (int) random(0, height);
+  Enemy e = new Enemy((int) random(0,3));
+  Player p = players.get(0);
+  
+  e.pos.x = (int) random(25, width - 25);
+  e.pos.y = (int) random(25, height - 25);
+  
+  while(p.pos.dist(e.pos) < 50)
+  {
+    e.pos.x = (int) random(25, width - 25);
+    e.pos.y = (int) random(25, height - 25);
+  }
+    
   enemies.add(e);
 }
