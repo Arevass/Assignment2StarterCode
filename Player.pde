@@ -108,9 +108,13 @@ class Player extends Object
     {
       stroke(colour);
       fill(colour);
+      /*
       ellipse(pos.x, pos.y, 20, 20);
       fill(255);
       ellipse(pos.x, pos.y, 10, 10);
+      */
+      imageMode(CENTER);
+      image(player, pos.x, pos.y);
     }
     
     if(index == 1)

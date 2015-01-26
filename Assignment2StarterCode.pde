@@ -12,6 +12,7 @@ boolean[] keys = new boolean[526];
 int k = 0;
 int spawnRate;
 PImage enemy1, enemy2, enemy3;
+PImage player;
 
 void setup()
 {
@@ -20,7 +21,10 @@ void setup()
   smooth();
   spawnRate = 60;
   setUpPlayerControllers();
+  enemy1 = loadImage("enemy1.png");
+  enemy2 = loadImage("enemy2.png");
   enemy3 = loadImage("enemy3.png");
+  player = loadImage("player.png");
 }
 
 void draw()

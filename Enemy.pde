@@ -26,13 +26,11 @@ class Enemy extends Object
       if(pos.x + w > width || pos.x < 0)
       {
         movement.x *= -1;
-        //speedStage += 0.2;
       }
       
       if(pos.y + h > height || pos.y < 0)
       {
         movement.y *= -1;
-        //speedStage += 0.2;
       }
       pos.add(movement);
     }
@@ -56,14 +54,12 @@ class Enemy extends Object
   {
     if(type == 0)
     {
-      fill(255, 0, 0);
-      rect(pos.x, pos.y, w, h);
+      image(enemy1, pos.x, pos.y);
     }
     
     if(type == 1)
     {
-      fill(255, 0, 0);
-      rect(pos.x, pos.y, w, h);
+      image(enemy2, pos.x, pos.y);
     }
     
     if(type == 2)

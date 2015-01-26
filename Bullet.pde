@@ -19,8 +19,6 @@ class Bullet extends Object
       alive = false;
     }
     
-    //forward.x = sin(theta);
-    //forward.y = -cos(theta);
     float speed = 20;
     
     PVector velocity = PVector.mult(forward, speed);
