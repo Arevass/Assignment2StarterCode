@@ -92,6 +92,8 @@ class Player extends Object
           bullet.theta = theta;
           bullet.colour = color(random(0,255), random(0,255), random(0,255));
           bullets.add(bullet);
+          PlayerShot.rewind();
+          PlayerShot.play();
           currentTime = millis();
         }
       }      
@@ -108,11 +110,6 @@ class Player extends Object
     {
       stroke(colour);
       fill(colour);
-      /*
-      ellipse(pos.x, pos.y, 20, 20);
-      fill(255);
-      ellipse(pos.x, pos.y, 10, 10);
-      */
       imageMode(CENTER);
       image(player, pos.x, pos.y);
     }
@@ -128,7 +125,7 @@ class Player extends Object
     }
   }
   
-  boolean collisionCheck(Enemy e)
+  boolean collisionCheck(Object e)
   {
     if(pos.x - 10 < e.pos.x + e.w && pos.x + 10 > e.pos.x && pos.y - 10 < e.pos.y + e.h && pos.y + 10 > e.pos.y)
     {

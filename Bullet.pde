@@ -3,11 +3,13 @@ class Bullet extends Object
   float lifespan = 3;
   float timer = 0;
   float tick = 0.05;
+  int kills;
   
   Bullet(PVector forward, color colour)
   {
     this.forward = forward;
     this.colour = colour;
+    kills = 0;
   }
   
   void update()
@@ -16,6 +18,7 @@ class Bullet extends Object
     
     if(timer > lifespan)
     {
+      //println("Kills: " + kills);
       alive = false;
     }
     

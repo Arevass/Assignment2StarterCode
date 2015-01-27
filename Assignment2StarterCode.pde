@@ -5,26 +5,54 @@
           Glenn Derwin; C13536273
 */
 
+import ddf.minim.*;
+
+AudioPlayer PlayerShot;
+Minim minim;
+
 ArrayList<Player> players = new ArrayList<Player>();
 ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+ArrayList<Power> powers = new ArrayList<Power>();
 boolean[] keys = new boolean[526];
-int k = 0;
-int spawnRate;
-PImage enemy1, enemy2, enemy3;
-PImage player;
+int lives, score, spawnRate;
+int scoreTimer, scoreDelay;
+PImage enemy1, enemy2, enemy3, player, health, scoreP;
+
+boolean devMode = true;
+
+boolean sketchFullScreen() 
+{
+  return ! devMode;
+}
 
 void setup()
 {
-  size(1000, 500);
+  if(devMode)
+  {
+    size(1000, 500);
+  }
+  else
+  {
+    size(displayWidth, displayHeight);
+  }
+
   noStroke();
   smooth();
   spawnRate = 60;
+  lives = 10;
+  score = 0;
   setUpPlayerControllers();
+  
   enemy1 = loadImage("enemy1.png");
   enemy2 = loadImage("enemy2.png");
   enemy3 = loadImage("enemy3.png");
   player = loadImage("player.png");
+  health = loadImage("health.png");
+  scoreP  = loadImage("score.png");
+  
+  minim = new Minim(this);
+  PlayerShot = minim.loadFile("PlayerShot.wav");
 }
 
 void draw()
@@ -36,23 +64,34 @@ void draw()
     spawnEnemy();
   }
   
+  if(frameCount % 300 == 0)
+  {
+    spawnPower();
+  }
+  
   for(Player player:players)
   {
     player.update();
     player.display();
   }
   
-  for(int i = 0; i < enemies.size(); i++)
+  for(Enemy enemy:enemies)
   {
-    enemies.get(i).update();
-    enemies.get(i).display();
+    enemy.update();
+    enemy.display();
+  }
+  
+  for(int i = 0; i < powers.size(); i++)
+  {
+    powers.get(i).update();
+    powers.get(i).display();
     
-    if(!enemies.get(i).alive)
+    if(!powers.get(i).alive)
     {
-      enemies.remove(i);
+      powers.remove(i);
     }
   }
-
+  
   for(int i = 0; i < bullets.size(); i++)
   {
     bullets.get(i).update();
@@ -72,8 +111,16 @@ void draw()
     if(p.collisionCheck(e))
     {
       enemies.remove(i);
-      println(k);
-      k++;
+    }
+  }
+  
+  for(int i = 0; i < powers.size(); i++)
+  {
+    Power pow = powers.get(i);
+    if(p.collisionCheck(pow))
+    {
+      powers.remove(i);
+      println("Power Collected");
     }
   }
   
@@ -91,6 +138,7 @@ void draw()
         if(b.collisionCheck(e))
         {
           enemies.remove(i);
+          b.kills++;
         }
       }
     }
@@ -163,11 +211,28 @@ void spawnEnemy()
   e.pos.x = (int) random(25, width - 25);
   e.pos.y = (int) random(25, height - 25);
   
-  while(p.pos.dist(e.pos) < 50)
+  while(p.pos.dist(e.pos) < 100)
   {
     e.pos.x = (int) random(25, width - 25);
     e.pos.y = (int) random(25, height - 25);
   }
     
   enemies.add(e);
+}
+
+void spawnPower()
+{
+  Power pow = new Power((int) random(0,2));
+  Player p = players.get(0);
+  
+  pow.pos.x = (int) random(25, width - 25);
+  pow.pos.y = (int) random(25, height - 25);
+  
+  while(p.pos.dist(pow.pos) < 150)
+  {
+    pow.pos.x = (int) random(25, width - 25);
+    pow.pos.y = (int) random(25, height - 25);
+  }
+  
+  powers.add(pow);
 }

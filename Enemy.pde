@@ -54,16 +54,19 @@ class Enemy extends Object
   {
     if(type == 0)
     {
+      imageMode(CORNER);
       image(enemy1, pos.x, pos.y);
     }
     
     if(type == 1)
     {
+      imageMode(CORNER);
       image(enemy2, pos.x, pos.y);
     }
     
     if(type == 2)
     {
+      imageMode(CORNER);
       image(enemy3, pos.x, pos.y);
     }
   }  
