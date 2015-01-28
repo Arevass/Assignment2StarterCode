@@ -2,7 +2,10 @@ class Enemy extends Object
 {
   
   int type;
-  float speedStage = 0;
+  float speedUp = 20;
+  float timeAlive = 0;
+  float tick = 0.05;
+  float speed;
   PVector movement;
   
   Enemy(int type)
@@ -17,6 +20,8 @@ class Enemy extends Object
     {
       movement = new PVector(3, 3);
     }
+    
+    speed = 3;
   }
   
   void update()
@@ -37,13 +42,20 @@ class Enemy extends Object
     
     if(type == 1)
     {
+      timeAlive += tick;
+      
+      if(timeAlive > speedUp)
+      {
+        speed++;
+        timeAlive = 0;
+      }
+      
       PVector aim = new PVector();
       aim = players.get(0).pos;
       
       PVector tar = PVector.sub(aim, pos);
       tar.normalize();
       
-      float speed = 3;
       PVector chase = PVector.mult(tar, speed);
       pos.add(chase);
     }

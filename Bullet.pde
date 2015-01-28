@@ -18,7 +18,18 @@ class Bullet extends Object
     
     if(timer > lifespan)
     {
-      //println("Kills: " + kills);
+      if(kills == 2)
+      {
+        score++;
+      }
+      else if(kills == 3)
+      {
+        score += 3;
+      }
+      else if(kills > 3)
+      {
+        score += 5;
+      }
       alive = false;
     }
     

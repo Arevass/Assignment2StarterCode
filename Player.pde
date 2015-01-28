@@ -15,7 +15,6 @@ class Player extends Object
     
   Player()
   {
-    pos = new PVector(width / 2, height / 2);
     
   }
   
@@ -31,6 +30,16 @@ class Player extends Object
     this.start = start;
     this.button1 = button1;
     this.button2 = button2;
+    
+    if(index == 0)
+    {
+      speed = new PVector(5, 5);
+    }
+    
+    if(index == 1)
+    {
+      speed = new PVector(10, 10);
+    }
   }
   
   Player(int index, color colour, XML xml)
@@ -73,7 +82,7 @@ class Player extends Object
     }
     if (checkKey(start))
     {
-      println("Player " + index + " start");
+      
     }
     if (checkKey(button1))
     {
@@ -85,16 +94,20 @@ class Player extends Object
         
         if(millis() - currentTime >= cooldown)
         {
-          PVector tar = PVector.sub(aim, pos);
-          tar.normalize();
-          Bullet bullet = new Bullet(tar, colour);
-          bullet.pos = pos.get();
-          bullet.theta = theta;
-          bullet.colour = color(random(0,255), random(0,255), random(0,255));
-          bullets.add(bullet);
-          PlayerShot.rewind();
-          PlayerShot.play();
-          currentTime = millis();
+          if(score > 0)
+          {
+            PVector tar = PVector.sub(aim, pos);
+            tar.normalize();
+            Bullet bullet = new Bullet(tar, colour);
+            bullet.pos = pos.get();
+            bullet.theta = theta;
+            bullet.colour = color(random(0,255), random(0,255), random(0,255));
+            bullets.add(bullet);
+            PlayerShot.rewind();
+            PlayerShot.play();
+            currentTime = millis();
+            score--;
+          }
         }
       }      
     }

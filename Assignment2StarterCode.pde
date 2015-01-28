@@ -16,8 +16,9 @@ ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 ArrayList<Power> powers = new ArrayList<Power>();
 boolean[] keys = new boolean[526];
 int lives, score, spawnRate;
-int scoreTimer, scoreDelay;
-PImage enemy1, enemy2, enemy3, player, health, scoreP;
+float scoreTimer, scoreDelay, scoreRate;
+PImage enemy1, enemy2, enemy3, player, health, scoreP, startScreen, endScreen;
+boolean begin, end;
 
 boolean devMode = true;
 
@@ -39,17 +40,22 @@ void setup()
 
   noStroke();
   smooth();
-  spawnRate = 60;
+  spawnRate = 120;
+  scoreRate = 120;
   lives = 10;
   score = 0;
   setUpPlayerControllers();
+  begin = true;
+  end = false;
   
   enemy1 = loadImage("enemy1.png");
   enemy2 = loadImage("enemy2.png");
   enemy3 = loadImage("enemy3.png");
   player = loadImage("player.png");
   health = loadImage("health.png");
-  scoreP  = loadImage("score.png");
+  scoreP = loadImage("score.png");
+  startScreen = loadImage("startscreen.png");
+  endScreen = loadImage("endscreen.png");
   
   minim = new Minim(this);
   PlayerShot = minim.loadFile("PlayerShot.wav");
@@ -59,86 +65,150 @@ void draw()
 {
   background(0);
   
-  if(frameCount % spawnRate == 0)
-  {
-    spawnEnemy();
-  }
-  
-  if(frameCount % 300 == 0)
-  {
-    spawnPower();
-  }
-  
-  for(Player player:players)
-  {
-    player.update();
-    player.display();
-  }
-  
-  for(Enemy enemy:enemies)
-  {
-    enemy.update();
-    enemy.display();
-  }
-  
-  for(int i = 0; i < powers.size(); i++)
-  {
-    powers.get(i).update();
-    powers.get(i).display();
+  if(checkKey(players.get(0).start)) 
+  { 
+    begin = false;
     
-    if(!powers.get(i).alive)
+    if(end)
     {
-      powers.remove(i);
-    }
-  }
-  
-  for(int i = 0; i < bullets.size(); i++)
-  {
-    bullets.get(i).update();
-    bullets.get(i).display();
-    
-    if(!bullets.get(i).alive)
-    {
-      bullets.remove(i);
-    }
-  }
-  
-  Player p = players.get(0);
-  
-  for(int i = 0; i < enemies.size(); i++)
-  {
-    Enemy e = enemies.get(i);
-    if(p.collisionCheck(e))
-    {
-      enemies.remove(i);
-    }
-  }
-  
-  for(int i = 0; i < powers.size(); i++)
-  {
-    Power pow = powers.get(i);
-    if(p.collisionCheck(pow))
-    {
-      powers.remove(i);
-      println("Power Collected");
-    }
-  }
-  
-  if(bullets.size() > 0)
-  {
-    
-    for(int j = 0; j < bullets.size(); j++)
-    {
+      end = false;
       
-      Bullet b = bullets.get(j);
+      players.clear();
+      bullets.clear();
+      powers.clear();
+      enemies.clear();
       
-      for(int i = 0; i < enemies.size(); i++)
+      setUpPlayerControllers();
+      
+      spawnRate = 120;
+      scoreRate = 120;
+      lives = 10;
+      score = 0;
+      
+    }
+  }
+  
+  if(begin)
+  {
+    image(startScreen, 0, 0, width, height);
+  }
+  else if(end)
+  {
+    image(endScreen, 0, 0, width, height - 100);
+    text("Score: " + score, (width / 2) - 40, height - 10);
+  }
+  else
+  {
+    text("Score: " + score, (width / 2) + 50, height - 10);
+    text("Lives: " + lives, (width / 2) - 50, height - 10);
+    
+    if(frameCount % scoreRate == 0)
+    {
+      score++;
+    }
+    
+    if(frameCount % 600 == 0)
+    {
+      if(spawnRate >= 30)
       {
-        Enemy e = enemies.get(i);
-        if(b.collisionCheck(e))
+        spawnRate -= 10;
+      }
+    }
+    
+    if(frameCount % spawnRate == 0)
+    {
+      spawnEnemy();
+    }
+    
+    if(frameCount % 300 == 0)
+    {
+      spawnPower();
+    }
+    
+    for(Player player:players)
+    {
+      player.update();
+      player.display();
+    }
+    
+    for(Enemy enemy:enemies)
+    {
+      enemy.update();
+      enemy.display();
+    }
+    
+    for(int i = 0; i < powers.size(); i++)
+    {
+      powers.get(i).update();
+      powers.get(i).display();
+      
+      if(!powers.get(i).alive)
+      {
+        powers.remove(i);
+      }
+    }
+    
+    for(int i = 0; i < bullets.size(); i++)
+    {
+      bullets.get(i).update();
+      bullets.get(i).display();
+      
+      if(!bullets.get(i).alive)
+      {
+        bullets.remove(i);
+      }
+    }
+    
+    Player p = players.get(0);
+    
+    for(int i = 0; i < enemies.size(); i++)
+    {
+      Enemy e = enemies.get(i);
+      if(p.collisionCheck(e))
+      {
+        enemies.remove(i);
+        lives--;
+        if(lives <= 0)
         {
-          enemies.remove(i);
-          b.kills++;
+          end = true;
+        }
+      }
+    }
+    
+    for(int i = 0; i < powers.size(); i++)
+    {
+      Power pow = powers.get(i);
+      if(p.collisionCheck(pow))
+      {
+        if(powers.get(i).type == 0)
+        {
+          lives++;
+        }
+        else
+        {
+          score += 10;
+        }
+        
+        powers.remove(i);
+
+      }
+    }
+    
+    if(bullets.size() > 0)
+    {
+      for(int j = 0; j < bullets.size(); j++)
+      {
+        
+        Bullet b = bullets.get(j);
+        
+        for(int i = 0; i < enemies.size(); i++)
+        {
+          Enemy e = enemies.get(i);
+          if(b.collisionCheck(e))
+          {
+            enemies.remove(i);
+            b.kills++;
+          }
         }
       }
     }
@@ -194,11 +264,11 @@ void setUpPlayerControllers()
     XML playerXML = children[i];
     Player p = new Player(
             i
-            , color(0, 0, 255)
+            , color(255)
             , playerXML);
     int x = (i + 1) * gap;
     p.pos.x = x;
-    p.pos.y = 300;
+    p.pos.y = (height / 2);
    players.add(p);         
   }
 }
